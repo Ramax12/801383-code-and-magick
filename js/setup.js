@@ -1,11 +1,11 @@
 'use strict';
 
 // Открытие/закрытие окна настройки персонажа
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 var setupOpen = document.querySelector('.setup-open');
 var setup = document.querySelector('.setup');
 var setupClose = setup.querySelector('.setup-close');
-var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
 
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
