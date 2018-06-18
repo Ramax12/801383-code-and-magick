@@ -20,6 +20,8 @@ var openPopup = function () {
 
 var closePopup = function () {
   setup.classList.add('hidden');
+  setup.style.top = 80 + 'px';
+  setup.style.left = 952 + 'px';
   document.removeEventListener('keydown', onPopupEscPress);
 };
 
