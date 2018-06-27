@@ -1,93 +1,48 @@
 'use strict';
 
-var setupDialogElement = document.querySelector('.setup');
-var dialogHandler = setupDialogElement.querySelector('.upload');
-var shopElement = document.querySelector('.setup-artifacts-cell img');
+// Открытие/закрытие окна настройки персонажа
+(function () {
+  var ESC_KEYCODE = 27;
+  var ENTER_KEYCODE = 13;
+  var setupOpen = document.querySelector('.setup-open');
+  var setup = document.querySelector('.setup');
+  var setupClose = setup.querySelector('.setup-close');
 
-dialogHandler.addEventListener('mousedown', function (evt) {
-
-  evt.preventDefault();
-
-  var startCoords = {
-    x: evt.clientX,
-    y: evt.clientY
-  };
-
-  var dragged = false;
-
-  var onMouseMove = function (moveEvt) {
-    moveEvt.preventDefault();
-    dragged = true;
-
-    var shift = {
-      x: startCoords.x - moveEvt.clientX,
-      y: startCoords.y - moveEvt.clientY
-    };
-
-    startCoords = {
-      x: moveEvt.clientX,
-      y: moveEvt.clientY
-    };
-
-    setupDialogElement.style.top = (setupDialogElement.offsetTop - shift.y) + 'px';
-    setupDialogElement.style.left = (setupDialogElement.offsetLeft - shift.x) + 'px';
-  };
-
-  var onMouseUp = function (upEvt) {
-    upEvt.preventDefault();
-
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
-
-    if (dragged) {
-      var onClickPreventDefault = function (e) {
-        e.preventDefault();
-        dialogHandler.removeEventListener('click', onClickPreventDefault);
-      };
-      dialogHandler.addEventListener('click', onClickPreventDefault);
+  var onPopupEscPress = function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      closePopup();
     }
   };
 
-  document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('mouseup', onMouseUp);
-});
-
-shopElement.addEventListener('mousedown', function (evt) {
-
-  evt.preventDefault();
-
-  var shift = {
-    x: evt.clientX - shopElement.offsetLeft,
-    y: evt.clientY - shopElement.offsetTop
+  var openPopup = function () {
+    setup.classList.remove('hidden');
+    document.addEventListener('keydown', onPopupEscPress);
   };
 
-  var onMouseMove = function (moveEvt) {
-    moveEvt.preventDefault();
-
-    shopElement.style.position = 'absolute';
-    shopElement.style.left = moveEvt.clientX - shift.x + 'px';
-    shopElement.style.top = moveEvt.clientY - shift.y + 'px';
+  var closePopup = function () {
+    setup.classList.add('hidden');
+    setup.style.top = 80 + 'px';
+    setup.style.left = 50 + '%';
+    document.removeEventListener('keydown', onPopupEscPress);
   };
 
-  var onMouseUp = function (upEvt) {
-    upEvt.preventDefault();
+  setupOpen.addEventListener('click', function () {
+    openPopup();
+  });
 
-    shopElement.style.position = 'static';
-
-    var element = document.elementFromPoint(upEvt.clientX, upEvt.clientY).closest('.setup-artifacts-cell');
-
-    if (element) {
-      element.appendChild(shopElement);
+  setupOpen.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      openPopup();
     }
+  });
 
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
-  };
+  setupClose.addEventListener('click', function () {
+    closePopup();
+  });
 
-  if (shopElement) {
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  }
-});
-
-
+  setupClose.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      closePopup();
+    }
+  });
+})();
