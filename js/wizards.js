@@ -28,19 +28,19 @@
     var wizardElement = similarWizardTemplate.cloneNode(true);
 
     wizardElement.querySelector('.setup-similar-label').textContent = window.renderName();
-    wizardElement.querySelector('.wizard-coat').style.fill = window.renderItem(colorCoat);
-    wizardElement.querySelector('.wizard-eyes').style.fill = window.renderItem(colorEyes);
+    wizardElement.querySelector('.wizard-coat').style.fill = window.renderItem(window.colorCoat);
+    wizardElement.querySelector('.wizard-eyes').style.fill = window.renderItem(window.colorEyes);
 
     return wizardElement;
   };
 
-  var render = function() {
-  	var fragment = document.createDocumentFragment();
+  var render = function () {
+    var fragment = document.createDocumentFragment();
     for (var i = 0; i < 4; i++) {
       fragment.appendChild(renderWizard());
     }
     similarListElement.appendChild(fragment);
-  }
+  };
 
   var onSuccess = function () {
     render();
