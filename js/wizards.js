@@ -9,10 +9,12 @@
   window.FIREBALL_COLOR = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
   document.querySelector('.setup-similar').classList.remove('hidden');
+  var setup = document.querySelector('.setup');
   var similarListElement = document.querySelector('.setup-similar-list');
   var similarWizardTemplate = document.querySelector('#similar-wizard-template')
       .content
       .querySelector('.setup-similar-item');
+  var form = document.querySelector('.setup-wizard-form');
 
   window.renderName = function () {
     var randomNames = Math.floor(Math.random() * NAMES.length);
@@ -26,16 +28,37 @@
     var wizardElement = similarWizardTemplate.cloneNode(true);
 
     wizardElement.querySelector('.setup-similar-label').textContent = window.renderName();
-    wizardElement.querySelector('.wizard-coat').style.fill = window.renderItem(window.COAT_COLOR);
-    wizardElement.querySelector('.wizard-eyes').style.fill = window.renderItem(window.EYES_COLOR);
+    wizardElement.querySelector('.wizard-coat').style.fill = window.renderItem(colorCoat);
+    wizardElement.querySelector('.wizard-eyes').style.fill = window.renderItem(colorEyes);
 
     return wizardElement;
   };
 
-  var fragment = document.createDocumentFragment();
-
-  for (var i = 0; i < 4; i++) {
-    fragment.appendChild(renderWizard());
+  var render = function() {
+  	var fragment = document.createDocumentFragment();
+    for (var i = 0; i < 4; i++) {
+      fragment.appendChild(renderWizard());
+    }
+    similarListElement.appendChild(fragment);
   }
-  similarListElement.appendChild(fragment);
+
+  var onSuccess = function () {
+    render();
+    setup.classList.add('hidden');
+  };
+
+  var onError = function (textError) {
+    var node = document.createElement('div');
+    node.style.position = 'absolute';
+    node.style = 'z-index: 9; background-color: red; font-size: 24px;';
+    node.textContent = textError;
+    document.body.insertAdjacentElement('afterbegin', node);
+
+    form.addEventListener('submit', function (evt) {
+      window.backend.save(new FormData(form), onSuccess, onError);
+      evt.preventDefault();
+    });
+
+    window.backend.load(onSuccess, onError);
+  };
 })();
