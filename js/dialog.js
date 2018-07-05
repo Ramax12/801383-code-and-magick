@@ -1,6 +1,5 @@
 'use strict';
 
-// Открытие/закрытие окна настройки персонажа
 (function () {
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
@@ -20,7 +19,6 @@
 
   var openPopup = function () {
     dialog.classList.remove('hidden');
-    window.backend.load(window.renderWizards, onError);
     document.addEventListener('keydown', onPopupEscPress);
   };
 
@@ -76,16 +74,23 @@
   var inputChangeEyes = document.querySelector('input[name=eyes-color]');
   var inputChangeFireball = document.querySelector('input[name=fireball-color]');
 
+  window.wizard = {
+    onEyesChange: function () {},
+    onCoatChange: function () {}
+  };
+
   changeCoat.addEventListener('click', function () {
-    var color = window.renderItem(COAT_COLOR);
-    changeCoat.style.fill = color;
-    inputChangeCoat.value = color;
+    var newColor = window.renderItem(COAT_COLOR);
+    changeCoat.style.fill = newColor;
+    inputChangeCoat.value = newColor;
+    window.wizard.onCoatChange(newColor);
   });
 
   changeEyes.addEventListener('click', function () {
-    var color = window.renderItem(EYES_COLOR);
-    changeEyes.style.fill = color;
-    inputChangeEyes.value = color;
+    var newColor = window.renderItem(EYES_COLOR);
+    changeEyes.style.fill = newColor;
+    inputChangeEyes.value = newColor;
+    window.wizard.onEyesChange(newColor);
   });
 
   changeFireball.addEventListener('click', function () {
@@ -93,4 +98,8 @@
     changeFireball.style.background = color;
     inputChangeFireball.value = color;
   });
+
+  window.dialog = {
+    onError: onError
+  };
 })();

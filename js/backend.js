@@ -6,7 +6,7 @@
   var SAVE_TIMEOUT = 10000;
 
   var load = function (onLoad, onError) {
-    var URL = 'http://127.0.0.1:8000/code-and-magic.json';
+    var URL = 'https://js.dump.academy/code-and-magick/data';
     var xhr = new XMLHttpRequest();
 
     xhr.responseType = 'json';

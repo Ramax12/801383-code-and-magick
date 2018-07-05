@@ -1,6 +1,5 @@
 'use strict';
 
-// Рандомное изменение персонажей
 (function () {
   document.querySelector('.setup-similar').classList.remove('hidden');
   var wizardContainer = document.querySelector('.setup-similar-list');
@@ -20,9 +19,6 @@
 
   window.renderWizards = function (wizards) {
     wizardContainer.innerHTML = '';
-    wizards.sort(function () {
-      return 0.5 - Math.random();
-    });
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < 4; i++) {
       fragment.appendChild(renderWizard(wizards[i]));
