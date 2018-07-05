@@ -19,6 +19,7 @@
 
   var openPopup = function () {
     dialog.classList.remove('hidden');
+    window.backend.load(window.onSuccess, onError);
     document.addEventListener('keydown', onPopupEscPress);
   };
 
@@ -98,8 +99,4 @@
     changeFireball.style.background = color;
     inputChangeFireball.value = color;
   });
-
-  window.dialog = {
-    onError: onError
-  };
 })();

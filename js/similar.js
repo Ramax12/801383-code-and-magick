@@ -48,11 +48,8 @@
     window.debounce(updateWizards);
   };
 
-  var successHandler = function (data) {
+  window.onSuccess = function (data) {
     wizards = data;
     updateWizards();
   };
-
-  window.backend.load(successHandler, window.dialog.onError);
-
 })();
